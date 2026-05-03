@@ -19,21 +19,26 @@
 
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #eef2ff;
+            background: #f8fafc;
             background-attachment: fixed;
+            min-height: 100vh;
             overflow: hidden; 
-        }
-
-        @media (max-width: 768px) {
-            body { overflow: auto; }
+            perspective: 1000px;
+            /* Global Background Following Cursor */
+            background-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                        rgba(37, 99, 235, 0.12) 0%, 
+                        rgba(59, 130, 246, 0.05) 25%, 
+                        transparent 50%);
         }
 
         .aero-glass {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
             border: 1px solid var(--glass-border);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out, box-shadow 0.3s ease;
         }
 
         .status-badge {
@@ -41,13 +46,12 @@
         }
 
         @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
         }
 
         .animate-floating {
-            animation: floating 3s ease-in-out infinite;
+            animation: floating 4s ease-in-out infinite;
         }
 
         #particle-canvas {
@@ -61,12 +65,27 @@
         }
 
         .countdown-item {
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
-            padding: 0.75rem;
-            border-radius: 1rem;
-            min-width: 60px;
+            padding: 1rem;
+            border-radius: 1.25rem;
+            min-width: 70px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+	.reveal-text {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: revealUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes revealUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        input:focus {
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1), 0 0 20px rgba(37, 99, 235, 0.1);
         }
 
         @media print {
@@ -101,6 +120,7 @@
                     <p class="reveal-text mt-4 text-slate-400 font-black tracking-[0.3em] uppercase text-xs" style="animation-delay: 0.5s">
                         Tahun Pelajaran <span id="display-tahun-awal" class="text-slate-600">...</span>
                     </p>
+
                 <div class="hidden md:block w-16 h-1 bg-blue-500 rounded-full mt-6"></div>
             </div>
 
@@ -111,8 +131,8 @@
                     <div class="w-16 h-16 mb-6 mx-auto drop-shadow-xl animate-floating">
                         <img src="https://lh3.googleusercontent.com/d/15zyF01OHtEgTl8p6bvEkz7xw30ByE2en" alt="Logo SMK" class="w-full h-full object-contain">
                     </div>
-                    <h2 class="text-xl font-bold text-slate-800 mb-2">Segera Dibuka!</h2>
-                    <p class="text-[11px] text-slate-400 uppercase tracking-widest mb-6">Pengumuman akan dapat diakses dalam:</p>
+                    <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Segera Dibuka!</h2>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest mb-8">Pengumuman akan dapat diakses dalam:</p>
                     
                     <div class="grid grid-cols-4 gap-2 mb-6">
                         <div class="countdown-item">
@@ -215,10 +235,10 @@
                     </div>
                 </div>
 
-                <!-- Indikator Pemuatan -->
+                <!-- Indikator Loading -->
                 <div id="loading" class="text-center py-12">
                     <div class="inline-block w-10 h-10 border-4 border-blue-500/20 border-t-blue-600 rounded-full animate-spin"></div>
-                    <p class="text-slate-400 text-[9px] font-bold mt-4 tracking-widest uppercase animate-pulse">Menghubungkan Server...</p>
+                    <p class="text-slate-400 text-[9px] font-bold mt-4 tracking-widest uppercase animate-pulse">Menghubungkan ke Server...</p>
                 </div>
 
             </div>
